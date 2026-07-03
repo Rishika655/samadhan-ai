@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+database/complaints.db
+config.py
+*.pyc
+templates/map.html

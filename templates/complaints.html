@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SamadhanAI — Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #1a1a2e;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo {
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .navbar .logo span { color: #4CAF50; }
+        .navbar a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 14px;
+        }
+        .navbar a:hover { color: white; }
+
+        .page-header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 40px;
+        }
+        .page-header h1 { font-size: 28px; margin-bottom: 6px; }
+        .page-header p { color: #aaa; font-size: 14px; }
+
+        /* STATS CARDS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 30px 40px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        .stat-card .label {
+            font-size: 13px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .stat-card.red .number { color: #e53935; }
+        .stat-card.orange .number { color: #fb8c00; }
+        .stat-card.green .number { color: #43a047; }
+
+        /* TABLE */
+        .table-container {
+            margin: 0 40px 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .table-header {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .table-header h2 { font-size: 16px; color: #1a1a2e; }
+        .new-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            background: #f8f9fa;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+            color: #333;
+        }
+        tr:hover { background: #fafafa; }
+        tr:last-child td { border-bottom: none; }
+
+        /* BADGES */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-critical { background: #fdecea; color: #c62828; }
+        .badge-high { background: #fff3e0; color: #e65100; }
+        .badge-medium { background: #fffde7; color: #f57f17; }
+        .badge-low { background: #e8f5e9; color: #2e7d32; }
+        .badge-pending { background: #e3f2fd; color: #1565c0; }
+        .badge-resolved { background: #e8f5e9; color: #2e7d32; }
+
+        .resolve-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .resolved-text { color: #4CAF50; font-weight: 600; font-size: 13px; }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #aaa;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Civic<span>AI</span></div>
+    <div>
+        <a href="/">Submit Complaint</a>
+        <a href="/complaints">Dashboard</a>
+        <a href="/map">Hotspot Map</a>
+    </div>
+</nav>
+
+<div class="page-header">
+    <h1>📋 Complaints Dashboard</h1>
+    <p>All complaints ranked by AI priority score — highest first</p>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat-card">
+        <div class="number">{{ complaints|length }}</div>
+        <div class="label">Total Complaints</div>
+    </div>
+    <div class="stat-card red">
+        <div class="number">{{ complaints|selectattr('10.escalation_level', 'equalto', 'Critical')|list|length }}</div>
+        <div class="label">Critical</div>
+    </div>
+    <div class="stat-card orange">
+        <div class="number">{{ complaints|selectattr(8, 'equalto', 'Pending')|list|length }}</div>
+        <div class="label">Pending</div>
+    </div>
+    <div class="stat-card green">
+        <div class="number">{{ complaints|selectattr(8, 'equalto', 'Resolved')|list|length }}</div>
+        <div class="label">Resolved</div>
+    </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-container">
+    <div class="table-header">
+        <h2>All Complaints</h2>
+        <a href="/" class="new-btn">+ New Complaint</a>
+    </div>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Complaint</th>
+            <th>Category</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Time (IST)</th>
+            <th>Escalation</th>
+            <th>Action</th>
+        </tr>
+        {% for c in complaints %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td><b>{{ c[1] }}</b></td>
+            <td>{{ c[4] }}</td>
+            <td>{{ c[2][:50] }}...</td>
+            <td><span class="badge badge-medium">{{ c[3] }}</span></td>
+            <td>
+                <span class="badge 
+                    {% if c[7]|int >= 80 %}badge-critical
+                    {% elif c[7]|int >= 60 %}badge-high
+                    {% elif c[7]|int >= 40 %}badge-medium
+                    {% else %}badge-low{% endif %}">
+                    {{ c[7] }}/100
+                </span>
+            </td>
+            <td>
+                <span class="badge 
+                    {% if c[8] == 'Resolved' %}badge-resolved
+                    {% else %}badge-pending{% endif %}">
+                    {{ c[8] }}
+                </span>
+            </td>
+            <td>{{ c[9] }}</td>
+            <td>{{ c[10]['message'] }}</td>
+            <td>
+                {% if c[8] != 'Resolved' %}
+                <a href="/resolve/{{ c[0] }}" class="resolve-btn">✅ Resolve</a>
+                {% else %}
+                <span class="resolved-text">✅ Done</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="footer">
+    SamadhanAI © 2026 — Powered by Groq LLaMA AI
+</div>
+
+</body>
+</html>

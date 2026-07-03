@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SamadhanAI — Smart Complaint Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #1a1a2e;
+            padding: 16px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .navbar .logo span { color: #4CAF50; }
+        .navbar-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 28px;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .navbar-links a:hover { color: white; }
+        .navbar-links .nav-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .navbar-links .nav-btn:hover { background: #43a047; }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(76, 175, 80, 0.05);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .hero h1 span { color: #4CAF50; }
+        .hero p {
+            color: #aaa;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover { background: #43a047; }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: background 0.2s;
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+
+        /* STATS BAR */
+        .stats-bar {
+            background: white;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .stat-item { text-align: center; }
+        .stat-item .number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1a2e;
+        }
+        .stat-item .number span { color: #4CAF50; }
+        .stat-item .label {
+            font-size: 13px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* FEATURES */
+        .features {
+            padding: 80px 60px;
+            text-align: center;
+        }
+        .section-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #4CAF50;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .features h2 {
+            font-size: 36px;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+        }
+        .features p {
+            color: #888;
+            font-size: 16px;
+            margin-bottom: 50px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: left;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #f0f0f0;
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+        .feature-card h3 {
+            font-size: 18px;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+        .feature-tag {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #4CAF50;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        /* HOW IT WORKS */
+        .how-it-works {
+            background: #1a1a2e;
+            color: white;
+            padding: 80px 60px;
+            text-align: center;
+        }
+        .how-it-works h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        .how-it-works h2 span { color: #4CAF50; }
+        .how-it-works > p {
+            color: #aaa;
+            margin-bottom: 50px;
+        }
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .step {
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+        }
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 auto 16px;
+        }
+        .step h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .step p {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.6;
+        }
+        .step-arrow {
+            font-size: 24px;
+            color: #4CAF50;
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, #4CAF50, #2e7d32);
+            color: white;
+            text-align: center;
+            padding: 80px 60px;
+        }
+        .cta h2 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        .cta p {
+            font-size: 16px;
+            margin-bottom: 32px;
+            opacity: 0.9;
+        }
+        .btn-white {
+            background: white;
+            color: #2e7d32;
+            padding: 14px 36px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        .btn-white:hover { transform: scale(1.05); }
+
+        /* FOOTER */
+        .footer {
+            background: #111;
+            color: #666;
+            text-align: center;
+            padding: 24px;
+            font-size: 13px;
+        }
+        .footer span { color: #4CAF50; }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">Samadhan<span>AI</span></div>
+    <div class="navbar-links">
+        <a href="/">Home</a>
+        <a href="/submit-complaint">Submit Complaint</a>
+        <a href="/complaints">Dashboard</a>
+        <a href="/map">Hotspot Map</a>
+        <a href="/submit-complaint" class="nav-btn">+ File Complaint</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-badge">🤖 AI-POWERED CIVIC PLATFORM</div>
+    <h1>Smart <span>Complaint</span><br>Prioritization System</h1>
+    <p>Submit civic complaints and let AI automatically analyze severity, detect duplicates, predict escalation and visualize hotspots on a live map.</p>
+    <div class="hero-buttons">
+        <a href="/submit-complaint" class="btn-primary">🚀 File a Complaint</a>
+        <a href="/complaints" class="btn-secondary">📋 View Dashboard</a>
+    </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="number">{{ total }}<span>+</span></div>
+        <div class="label">Complaints Filed</div>
+    </div>
+    <div class="stat-item">
+        <div class="number">{{ resolved }}<span>+</span></div>
+        <div class="label">Issues Resolved</div>
+    </div>
+    <div class="stat-item">
+        <div class="number">AI<span>✓</span></div>
+        <div class="label">Powered Analysis</div>
+    </div>
+    <div class="stat-item">
+        <div class="number">24<span>/7</span></div>
+        <div class="label">System Active</div>
+    </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+    <div class="section-badge">FEATURES</div>
+    <h2>Everything You Need</h2>
+    <p>Four powerful AI features working together</p>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-tag">AI POWERED</div>
+            <div class="feature-icon">🤖</div>
+            <h3>Smart Complaint Analysis</h3>
+            <p>Groq LLaMA AI reads your complaint and automatically extracts category, severity, risk level and generates a priority score out of 100.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-tag">ML BASED</div>
+            <div class="feature-icon">🔍</div>
+            <h3>Duplicate Detection</h3>
+            <p>Uses cosine similarity to detect if the same issue has already been reported. Prevents 50 separate tickets for the same pothole.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-tag">LIVE MAP</div>
+            <div class="feature-icon">🗺️</div>
+            <h3>Geo-Spatial Hotspot Map</h3>
+            <p>Automatically geocodes complaint locations and plots them on a live heatmap. Authorities see problem hotspots at a glance.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-tag">PREDICTIVE</div>
+            <div class="feature-icon">📈</div>
+            <h3>Escalation Prediction</h3>
+            <p>Predicts which complaints will become critical if not resolved. Priority score increases automatically with pending days.</p>
+        </div>
+    </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-it-works">
+    <h2>How It <span>Works</span></h2>
+    <p>From complaint to resolution in 4 simple steps</p>
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Submit</h3>
+            <p>Citizen submits complaint with location and description</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>AI Analyzes</h3>
+            <p>Groq AI extracts category, severity and priority score</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Prioritize</h3>
+            <p>Dashboard shows complaints ranked by priority score</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+            <div class="step-number">4</div>
+            <h3>Resolve</h3>
+            <p>Authority resolves complaint and closes the ticket</p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+    <h2>Ready to File a Complaint?</h2>
+    <p>Let AI analyze and prioritize your civic issue instantly</p>
+    <a href="/submit-complaint" class="btn-white">🚀 Get Started</a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    SamadhanAI © 2026 — Built with Flask + Groq LLaMA AI | 
+    Designed for <span>Smart Governance</span>
+</div>
+
+</body>
+</html>
